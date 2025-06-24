@@ -17,11 +17,10 @@ import { useEffect, useState, createContext, useContext, useCallback } from 'rea
 import { useIsFocused, useFocusEffect } from '@react-navigation/native';
 
 
-import { BadgeContext } from "../../app/(tabs)/cart/index"; // 他ファイルで設定したcreateContext(値)を受け取る
+import { BadgeContext } from "../contexts/badge"; // 他ファイルで設定したcreateContext(値)を受け取る
 
 export default function TabLayout() {
-    const value = useContext(BadgeContext);
-    console.log("value？", value);
+    const [cartAdded, setCartAdded] = useState(false)
 
     // const isFocused = useIsFocused();
     // useFocusEffect(
@@ -35,6 +34,12 @@ export default function TabLayout() {
     // );
 
     return (
+      <BadgeContext.Provider
+        value={{
+          cartAdded,
+          setCartAdded
+        }}
+      >
         <Tabs>
             <Tabs.Screen
                 name="home"
@@ -50,13 +55,14 @@ export default function TabLayout() {
                 name="cart/index"
                 options={{
                     // バッチ機能
-                    tabBarBadge: value ? '' : undefined,
+                    tabBarBadge: cartAdded ? '' : undefined,
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="cart" size={28} color={color} />
                     ),
                 }}
             />
         </Tabs>
+      </BadgeContext.Provider>
     );
 }
 

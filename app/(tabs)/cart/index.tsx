@@ -2,19 +2,14 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useEffect, useState, createContext, useContext } from 'react'; 
 
 import LayoutContext from "../../(tabs)/_layout";
-
-// セットし他ファイルへ渡す。
-export const BadgeContext = createContext(false);
+import { BadgeContext } from "../../contexts/badge"
 
 export default function CartIndex() {
-    // カート追加済みフラグ
-	const [cartAdded, setCartAdded] = useState(false);
-    console.log("cartAdded？", cartAdded);
+    const { cartAdded, setCartAdded } = useContext(BadgeContext)
 
     return (
         <View>
             <Text>カート画面</Text>
-            <BadgeContext.Provider value={cartAdded}>
                 <LayoutContext />
 
                 <TouchableOpacity
@@ -25,8 +20,6 @@ export default function CartIndex() {
                 >
                     <Text>カートに追加</Text>
                 </TouchableOpacity>
-
-            </BadgeContext.Provider>
         </View>
     )
 }
